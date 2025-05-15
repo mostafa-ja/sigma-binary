@@ -2,22 +2,24 @@
 
 Welcome to the official repository for **"Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems"**, a research paper currently under review at *IEEE Transactions on Information Forensics & Security (T-IFS)*.
 
-📄 **Paper:** You can access the latest version of the paper on [arXiv](https://arxiv.org/abs/2505.09342).
+📄 **Paper**: The latest version is available on [arXiv](https://arxiv.org/abs/2505.09342).
 
-This repository includes the code, datasets, and instructions necessary to reproduce the experiments and results presented in the paper.
+This repository contains the code, datasets, and scripts required to reproduce the experiments and results presented in the paper.
 
-
+---
 
 ## 📌 Overview
 
-This repository provides an implementation and evaluation framework for **Sigma-Binary**, a novel adversarial attack designed for binary-constrained domains. Our research introduces:
+This project introduces and evaluates **Sigma-Binary**, a novel adversarial attack specifically designed for binary-constrained domains in malware detection. Key contributions include:
 
-- **Prioritized Binary Rounding**: A novel technique for efficiently mapping continuous adversarial perturbations to binary space while maintaining high attack success rates.
-- **Sigma-Binary Attack**: A gradient-based attack optimized for binary malware detection models, leveraging differentiable approximations of the Hamming distance.
+- **Prioritized Binary Rounding (PBR)**: An efficient method for mapping continuous perturbations into binary space while retaining high attack success.
+- **Sigma-Binary Attack**: A gradient-based attack using differentiable approximations of Hamming distance for binary feature manipulation in malware detection systems.
+
+---
 
 ## 🚀 Dependencies
 
-Our code is developed and tested on **Windows**. The required dependencies are:
+Developed and tested on **Windows** with the following dependencies:
 
 ```plaintext
 Python 3.12.5
@@ -25,78 +27,94 @@ torch == 2.5.0+cu124
 numpy == 2.1.2
 scikit-learn == 1.5.2
 scipy == 1.14.1
-```
+````
 
-To install dependencies, run:
+Install them using:
+
 ```bash
 pip install -r requirements.txt
 ```
 
+---
+
 ## 📂 Repository Structure
 
-```
+```text
 sigma-binary-attack/
-│── attacks/                          # Adversarial attack implementations
-│   ├── sigma_binary/                 # Our proposed Sigma-Binary attack
-│   ├── binary_rounding_methods/      # Binary rounding methods
-│   │   ├── prioritized_binary        # Our proposed method
-│   │   ├── probabilistic_binary      # Comparison method 1
-│   │   ├── thresholded_binary        # Comparison method 2
-│   ├── baseline_attacks/             # Other adversarial attacks (CW, PGD, etc.)
-│   ├── run_attacks/                  # Scripts for running attacks
 │
-│── defenses/                         # Defense models
-│   ├── model_implementations/        # Code for different defense models
-│   ├── saved_parameters/             # Pre-trained defense model parameters
+├── attacks/                          # Adversarial attack modules
+│   ├── sigma_binary/                 # Sigma-Binary implementation
+│   ├── binary_rounding_methods/     # Binary rounding strategies
+│   │   ├── prioritized_binary/       # Our proposed PBR method
+│   │   ├── probabilistic_binary/     # Comparison method 1
+│   │   ├── thresholded_binary/       # Comparison method 2
+│   ├── baseline_attacks/            # Existing baseline attacks (CW, PGD, etc.)
+│   ├── run_attacks/                 # Scripts to execute attacks
 │
-│── dataset/                          # Data and preprocessing
-│   ├── malscan_preprocessed/         # Preprocessed Malscan dataset
-│   ├── adversarial_examples/         # Generated adversarial examples
+├── defenses/                         # Defense model implementations
+│   ├── model_implementations/       # Source code for defenses
+│   ├── saved_parameters/            # Pretrained defense model weights
 │
-│── evaluation/                       # Scripts for evaluation
-│   ├── eval_PBR.sh                   # Evaluates Prioritized Binary Rounding (RQ1)
-│   ├── eval_sigma_binary.sh          # Evaluates Sigma-Binary attack (RQ2)
-│   ├── eval_baseline_defenses.sh     # Evaluates baseline defense performance (RQ3)
-│   ├── eval_oblivious_attacks.sh     # Evaluates defenses against oblivious attacks (RQ4)
-│   ├── eval_adaptive_attacks.sh      # Evaluates defenses against adaptive attacks (RQ5)
+├── dataset/                          # Dataset and preprocessing files
+│   ├── malscan_preprocessed/        # Preprocessed Malscan dataset
+│   ├── adversarial_examples/        # Generated adversarial samples
 │
-│── utils/                            # Helper functions
-│   ├── attack_utils.py               # Shared functions for attacks
-│   ├── model_utils.py                # Utility functions for models & dataset preprocessing
+├── evaluation/                       # Scripts for evaluating attacks and defenses
+│   ├── eval_PBR.sh                  # RQ1: Prioritized Binary Rounding
+│   ├── eval_sigma_binary.sh         # RQ2: Sigma-Binary attack
+│   ├── eval_baseline_defenses.sh    # RQ3: Baseline defense evaluation
+│   ├── eval_oblivious_attacks.sh    # RQ4: Oblivious attack evaluation
+│   ├── eval_adaptive_attacks.sh     # RQ5: Adaptive attack evaluation
 │
-│── README.md                         # Repository overview
-│── requirements.txt                  # Dependencies
-│── run_test.sh                        # Example script demonstrating usage
+├── utils/                            # Utility functions
+│   ├── attack_utils.py              # Helpers for attack modules
+│   ├── model_utils.py               # Utilities for models and preprocessing
+│
+├── README.md                         # Project documentation
+├── requirements.txt                  # Python dependencies
+├── run_test.sh                       # Sample execution script
 ```
+
+---
 
 ## 📊 Dataset
 
-We conduct our experiments using the [Malscan](https://github.com/malscan-android/MalScan) dataset. To reproduce our results:
+Experiments are conducted using the [Malscan](https://github.com/malscan-android/MalScan) dataset.
 
-1. Follow the preprocessing steps from **"PAD: Towards Principled Adversarial Malware Detection"** ([GitHub](https://github.com/deqangss/pad4amd)).
-2. Alternatively, download our preprocessed dataset and feature mask from [this Google Drive link](https://drive.google.com/drive/folders/1kPzuph_N4TmM3F4z7gj3qcbL_7uLZANI?usp=sharing).
-3. Place the files under `dataset/malscan_preprocessed/`.
+To reproduce our results:
 
-## 🎯 Learned Parameters
+1. Follow preprocessing instructions from the **PAD** paper: [PAD4AMD GitHub](https://github.com/deqangss/pad4amd)
+2. Or download our preprocessed dataset and feature mask from [Google Drive](https://drive.google.com/drive/folders/1kPzuph_N4TmM3F4z7gj3qcbL_7uLZANI?usp=sharing)
+3. Place the downloaded files in: `dataset/malscan_preprocessed/`
 
-The defense models were trained following the **PAD** methodology. Pre-trained parameters are available for download:
+---
 
-- [Trained defense parameters](https://drive.google.com/drive/folders/1-q3TMZGjoDpBkNHgc5tTcFKMF9ywowQy?usp=sharing).
-- Place the downloaded files in `defenses/saved_parameters/`.
+## 🎯 Pretrained Defense Models
 
-## 🛠 Running Evaluation Scripts
+Defense models were trained following the **PAD** methodology.
 
-Each evaluation script is designed to test different aspects of our study. They can be executed as follows:
+* Download pretrained parameters from: [Google Drive](https://drive.google.com/drive/folders/1-q3TMZGjoDpBkNHgc5tTcFKMF9ywowQy?usp=sharing)
+* Place them in: `defenses/saved_parameters/`
+
+---
+
+## 🛠 Evaluation Scripts
+
+Run evaluation scripts corresponding to each research question (RQ):
 
 ```bash
-bash evaluation/eval_PBR.sh            # Evaluates Prioritized Binary Rounding (RQ1)
-bash evaluation/eval_sigma_binary.sh   # Evaluates Sigma-Binary attack (RQ2)
-bash evaluation/eval_baseline_defenses.sh   # Evaluates baseline performance of defenses (RQ3)
-bash evaluation/eval_oblivious_attacks.sh   # Evaluates defenses against oblivious attacks (RQ4)
-bash evaluation/eval_adaptive_attacks.sh    # Evaluates defenses against adaptive attacks (RQ5)
+bash evaluation/eval_PBR.sh               # RQ1: Evaluate Prioritized Binary Rounding
+bash evaluation/eval_sigma_binary.sh      # RQ2: Evaluate Sigma-Binary attack
+bash evaluation/eval_baseline_defenses.sh # RQ3: Evaluate baseline defenses
+bash evaluation/eval_oblivious_attacks.sh # RQ4: Oblivious attack evaluation
+bash evaluation/eval_adaptive_attacks.sh  # RQ5: Adaptive attack evaluation
 ```
 
-### Example: Running an attack manually
+---
+
+### ▶️ Example: Running an Attack
+
+Run the Sigma-Binary attack:
 
 ```bash
 python -m attacks.run_attacks.sigma_zero_attack --cuda \
@@ -109,7 +127,7 @@ python -m attacks.run_attacks.sigma_zero_attack --cuda \
        --verbose
 ```
 
-To run the attack using Prioritized Binary Rounding:
+With **Prioritized Binary Rounding**:
 
 ```bash
 python -m attacks.run_attacks.sigma_zero_attack --cuda \
@@ -123,23 +141,37 @@ python -m attacks.run_attacks.sigma_zero_attack --cuda \
        --verbose
 ```
 
-## 🔗 Acknowledgment
+---
 
-We adapt parts of our code (models, preprocessing, learned parameters) from the [PAD4AMD repository](https://github.com/deqangss/pad4amd).
+## 🔗 Acknowledgments
+
+We build upon prior work and reuse selected components (e.g., model architecture, preprocessing, training procedures) from the [PAD4AMD repository](https://github.com/deqangss/pad4amd).
+
+---
 
 ## 📖 Citation
 
-If you find our work useful, please cite it as follows:
+If you use this work in your research, please cite our paper:
 
 ```bibtex
-
+@article{jafari2024sigmabinary,
+  title={Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems},
+  author={Jafari, Mostafa and Shameli-Sendi, Alireza},
+  journal={arXiv preprint arXiv:2505.09342},
+  year={2025}
+}
 ```
+
+---
 
 ## 📧 Contact
 
-For inquiries, feel free to reach out:
+For questions or feedback, feel free to reach out:
 
 ✉️ [most.jafari@mail.sbu.ac.ir](mailto:most.jafari@mail.sbu.ac.ir)
+
+---
+
 
 ## ⚖️ License
 
