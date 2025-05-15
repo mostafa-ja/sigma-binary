@@ -12,7 +12,7 @@ This repository contains the code, datasets, and scripts required to reproduce t
 
 This project introduces and evaluates **Sigma-Binary**, a novel adversarial attack specifically designed for binary-constrained domains in malware detection. Key contributions include:
 
-- **Prioritized Binary Rounding (PBR)**: An efficient method for mapping continuous perturbations into binary space while retaining high attack success.
+- **Prioritized Binary Rounding**: An efficient method for mapping continuous perturbations into binary space while retaining high attack success.
 - **Sigma-Binary Attack**: A gradient-based attack using differentiable approximations of Hamming distance for binary feature manipulation in malware detection systems.
 
 ---
@@ -154,7 +154,7 @@ We build upon prior work and reuse selected components (e.g., model architecture
 If you use this work in your research, please cite our paper:
 
 ```bibtex
-@article{jafari2024sigmabinary,
+@article{jafari2025sigmabinary,
   title={Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems},
   author={Jafari, Mostafa and Shameli-Sendi, Alireza},
   journal={arXiv preprint arXiv:2505.09342},
