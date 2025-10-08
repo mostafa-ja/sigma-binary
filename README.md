@@ -1,6 +1,6 @@
 # Sigma-Binary: Evaluating the Robustness of Adversarial Defenses in Malware Detection
 
-Welcome to the official repository for **"Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems"**, a research paper currently under review at *IEEE Transactions on Information Forensics & Security (T-IFS)*.
+Welcome to the official repository for **"Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems"**, a research paper currently under review.
 
 📄 **Paper**: The latest version is available on [arXiv](https://arxiv.org/abs/2505.09342).
 
