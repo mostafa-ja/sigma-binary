@@ -45,9 +45,9 @@ sigma-binary-attack/
 ├── attacks/                          # Adversarial attack modules
 │   ├── sigma_binary/                 # Sigma-Binary implementation
 │   ├── binary_rounding_methods/     # Binary rounding strategies
-│   │   ├── prioritized_binary/       # Our proposed PBR method
-│   │   ├── probabilistic_binary/     # Comparison method 1
-│   │   ├── thresholded_binary/       # Comparison method 2
+│   │   ├── prioritized_binary/       # Our proposed Prioritized Binary Rounding method
+│   │   ├── probabilistic_binary/     # Probabilistic Binary Rounding method
+│   │   ├── thresholded_binary/       # Thresholded Binary Rounding method
 │   ├── baseline_attacks/            # Existing baseline attacks (CW, PGD, etc.)
 │   ├── run_attacks/                 # Scripts to execute attacks
 │
@@ -60,11 +60,10 @@ sigma-binary-attack/
 │   ├── adversarial_examples/        # Generated adversarial samples
 │
 ├── evaluation/                       # Scripts for evaluating attacks and defenses
-│   ├── eval_PBR.sh                  # RQ1: Prioritized Binary Rounding
-│   ├── eval_sigma_binary.sh         # RQ2: Sigma-Binary attack
-│   ├── eval_baseline_defenses.sh    # RQ3: Baseline defense evaluation
-│   ├── eval_oblivious_attacks.sh    # RQ4: Oblivious attack evaluation
-│   ├── eval_adaptive_attacks.sh     # RQ5: Adaptive attack evaluation
+│   ├── eval_sigma_binary.sh         # RQ1: Sigma-Binary attack
+│   ├── eval_baseline_defenses.sh    # RQ2: Baseline defense evaluation
+│   ├── eval_oblivious_attacks.sh    # RQ3: Oblivious attack evaluation
+│   ├── eval_adaptive_attacks.sh     # RQ4: Adaptive attack evaluation
 │
 ├── utils/                            # Utility functions
 │   ├── attack_utils.py              # Helpers for attack modules
@@ -103,11 +102,10 @@ Defense models were trained following the **PAD** methodology.
 Run evaluation scripts corresponding to each research question (RQ):
 
 ```bash
-bash evaluation/eval_PBR.sh               # RQ1: Evaluate Prioritized Binary Rounding
-bash evaluation/eval_sigma_binary.sh      # RQ2: Evaluate Sigma-Binary attack
-bash evaluation/eval_baseline_defenses.sh # RQ3: Evaluate baseline defenses
-bash evaluation/eval_oblivious_attacks.sh # RQ4: Oblivious attack evaluation
-bash evaluation/eval_adaptive_attacks.sh  # RQ5: Adaptive attack evaluation
+bash evaluation/eval_sigma_binary.sh      # RQ1: Evaluate Sigma-Binary attack
+bash evaluation/eval_baseline_defenses.sh # RQ2: Evaluate baseline defenses
+bash evaluation/eval_oblivious_attacks.sh # RQ3: Oblivious attack evaluation
+bash evaluation/eval_adaptive_attacks.sh  # RQ4: Adaptive attack evaluation
 ```
 
 ---
@@ -121,23 +119,9 @@ python -m attacks.run_attacks.sigma_zero_attack --cuda \
        --data-path dataset/malscan_preprocessed \
        --param-path defenses/saved_parameters \
        --model DNN \
-       --max-iterations 10000 \
-       --learning-rate 0.5 \
-       --threshold 0.1 \
-       --verbose
-```
-
-With **Prioritized Binary Rounding**:
-
-```bash
-python -m attacks.run_attacks.sigma_zero_attack --cuda \
-       --data-path dataset/malscan_preprocessed \
-       --param-path defenses/saved_parameters \
-       --model DNN \
-       --max-iterations 10000 \
-       --learning-rate 0.5 \
-       --threshold 0.1 \
-       --rounded --rounding-function "prioritized_binary_rounding" \
+       --max-iterations 1000 \
+       --learning-rate 0.6 \
+       --threshold 0.2 \
        --verbose
 ```
 
