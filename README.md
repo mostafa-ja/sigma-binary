@@ -185,15 +185,7 @@ bash run_test.sh
 ### Example: Running Sigma-Binary
 
 ```bash
-python -m attacks.run_attacks.sigmaBinary_attack \
-    --cuda \
-    --data-path dataset/malscan_preprocessed \
-    --param-path defenses/saved_parameters \
-    --model DNN \
-    --max-iterations 1000 \
-    --learning-rate 0.6 \
-    --threshold 0.2 \
-    --verbose
+python -m attacks.run_attacks.sigmaBinary_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model DNN --max-iterations 1000 --learning-rate 0.6 --threshold 0.2 --verbose
 ```
 
 ### Example: Running PGD (Baseline)
