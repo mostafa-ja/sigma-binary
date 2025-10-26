@@ -27,7 +27,7 @@ def main():
         "DNN": lambda: MalwareDetectionDNN("DNN", device=device),
         "AT_rFGSM": lambda: MalwareDetectionDNN("AT_rFGSM", device=device),
         "AT_MaxMA": lambda: MalwareDetectionDNN("AT_MaxMA", device=device),
-        "KDE": lambda: KernelDensityEstimation(MalwareDetectionDNN("DNN", device=device).float(), device=device, name="KDE"),
+        "KDE": lambda: KernelDensityEstimation(MalwareDetectionDNN("DNN", device=device).float(), device=device, model_name="KDE"),
         "DLA": lambda: AMalwareDetectionDLA(MalwareDetectionDNN("DNN", device=device), device=device),
         "DNNPlus": lambda: AMalwareDetectionDNNPlus(MalwareDetectionDNN("DNN", device=device), device=device, model_name="DNNPlus"),
         "ICNN": lambda: AdvMalwareDetectorICNN(MalwareDetectionDNN("DNN", device=device), device=device, model_name="ICNN"),
@@ -49,3 +49,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
