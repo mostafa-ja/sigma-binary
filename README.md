@@ -204,7 +204,7 @@ python -m attacks.run_attacks.PGD_attack \
     --data-path dataset/malscan_preprocessed \
     --param-path defenses/saved_parameters \
     --model DNN \
-    --norm l2 \
+    --norm L2 \
     --max-iterations 1000 \
     --step-length 1.0
 ```
