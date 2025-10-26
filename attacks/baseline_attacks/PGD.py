@@ -14,7 +14,7 @@ def PGD(
     verbose: bool = False,
     detector_enabled: bool = False,
     oblivion: bool = False,
-    binary_search_steps: int = 6,
+    binary_search_steps: int = 4,
     initial_const = 1.0,
     device: torch.device = torch.device('cpu')
 ) -> Tensor:
@@ -178,17 +178,19 @@ def PGD(
             grad4removal = (gradients < 0) * (adv_inputs > 0.) * modifiable_features_mask * gradients
 
             gradients = grad4removal + grad4insertion
+            
+            norm = norm.lower()
 
             # Norm
-            if norm == 'Linf':
+            if norm == 'linf':
                 perturbation = torch.sign(gradients).float()
 
-            elif norm == 'L2':
+            elif norm == 'l2':
                 #perturbation = (gradients / l2norm )
                 l2norm = torch.linalg.norm(gradients, dim=-1, keepdim=True)
                 perturbation = (gradients / (l2norm + 1e-20)).float()
 
-            elif norm == 'L1':
+            elif norm == 'l1':
                 # consider just features of a sample which are not updated yet(because our update is 0to1 or 1to0 not stepwise)
                 un_mod = torch.abs(delta.data) <= 1e-6
                 gradients = gradients * un_mod
@@ -216,7 +218,7 @@ def PGD(
         )
 
 
-    if (norm == 'L2' or norm == 'Linf'):
+    if (norm == 'l2' or norm == 'linf'):
         output = thresholded_binary_rounding((original_inputs + best_delta)).clamp_(0, 1)
     else:
         output = (original_inputs + best_delta).clamp_(0, 1)
