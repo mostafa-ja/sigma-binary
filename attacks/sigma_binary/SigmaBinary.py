@@ -22,6 +22,7 @@ def sigmaBinary(
     learning_rate: float = 0.5,
     sigma: float = 1e-4,
     threshold: float = 0.3,
+    t: float = 0.01,
     verbose: bool = False,
     grad_norm: float = torch.inf,
     detector_enabled: bool = False,
@@ -30,10 +31,11 @@ def sigmaBinary(
     initial_const = 1.0,
     initial_primary_confidence: float = 1e-4,
     initial_secondary_confidence: float = 1e-4,
-    device: str = 'cpu',
+    device: torch.device = torch.device('cpu'),
     confidence_bound_primary: float = 1.,
     confidence_bound_secondary: float = 1.,
     confidence_update_interval: int = 50,
+    stable: bool = True
 ) -> Tensor:
     """
     Optimizes adversarial examples with L0 constraints using iterative methods.
@@ -46,6 +48,7 @@ def sigmaBinary(
     - learning_rate (float): The learning rate for the optimizer.
     - sigma (float): A small constant to control the L0 approximation.
     - threshold (float): A threshold for making zero those features with small perturbation.
+    - t (float): The step size for updating the threshold.
     - verbose (bool): Whether to print detailed progress information.
     - grad_norm (float): The gradient normalization parameter.
     - detector_enabled (bool): Whether to use the detector model for evaluation.
@@ -62,7 +65,7 @@ def sigmaBinary(
     Returns:
     - final_adv (Tensor): The optimized adversarial examples.
     """
-
+    
     # Initialization
     model.eval()
     original_inputs = original_inputs.to(device)
@@ -103,6 +106,7 @@ def sigmaBinary(
         threshold_matrix = torch.full_like(original_inputs, threshold, device=device)
         primary_confidence = torch.full((batch_size,), initial_primary_confidence, device=device)
         secondary_confidence = torch.full((batch_size,), initial_secondary_confidence, device=device)
+        prime_success = torch.zeros(batch_size, dtype=torch.bool, device=device)
         success_samples = torch.zeros(batch_size, dtype=torch.bool, device=device)
         success_samples_R = torch.zeros(batch_size, dtype=torch.bool, device=device)
         stagnation_counter = torch.zeros(batch_size, dtype=torch.int32, device=device)
@@ -122,12 +126,13 @@ def sigmaBinary(
 
             # Update success masks and distances
             with torch.no_grad():
+                prime_success |= (logits.argmax(dim=1) == 0)
                 success_mask = (logits.argmax(dim=1) == 0) & ((prob <= tau) if detector_enabled and not oblivion else True)
                 success_samples |= success_mask
                 o_success_samples |= success_mask
 
                 if step == 0 or (step + 1) % 10 == 0:
-                    adv_inputs_rounded = prioritized_binary_rounding(original_inputs, adv_inputs, model, feature_mask, detector_enabled, oblivion)
+                    adv_inputs_rounded = prioritized_binary_rounding(original_inputs, adv_inputs, model, feature_mask, detector_enabled, oblivion,stable=stable)
                     rounded_logits, rounded_prob = forward_model(adv_inputs_rounded, model, detector_enabled, oblivion)
 
                     success_mask_R = (rounded_logits.argmax(dim=1) == 0) & ((rounded_prob <= tau) if detector_enabled and not oblivion else True)
@@ -146,9 +151,11 @@ def sigmaBinary(
                       if detector_enabled and not oblivion:
                           secondary_confidence = update_confidence(secondary_confidence, o_stagnated_mask & success_mask, o_stagnated_mask & ~success_mask, confidence_bound_secondary)
 
-            primary_loss = torch.clamp(mal_score - ben_score + primary_confidence, min=0.0)
+            
             if detector_enabled and not oblivion:
-                primary_loss += CONST * torch.clamp(prob - tau + secondary_confidence, min=0.0)
+                primary_loss = CONST * torch.clamp(mal_score - ben_score + primary_confidence, min=0.0) + torch.clamp(prob - tau + secondary_confidence, min=0.0)
+            else:
+                primary_loss = torch.clamp(mal_score - ben_score + primary_confidence, min=0.0)
 
             # Combined loss and optimization
             l0_approx = delta.square() / (delta.square() + sigma)
@@ -167,7 +174,7 @@ def sigmaBinary(
 
 
 
-            if verbose and (step == 0 or ((step + 1) % (max_iterations // 10) == 0)):
+            if verbose and (step == 0 or ((step + 1) % (max_iterations // 5) == 0)):
                 avg_best_dist = best_dist[o_success_samples_R].float().mean().item() if o_success_samples_R.any() else float('nan')
                 print(
                     f"Iteration {step + 1:5} | "
@@ -189,19 +196,19 @@ def sigmaBinary(
             with torch.no_grad():
                 delta.data.add_(original_inputs).clamp_(0, 1).sub_(original_inputs)
 
-                threshold_matrix[~success_mask] -= 0.01 * scheduler.get_last_lr()[0]
-                threshold_matrix[success_mask] += 0.01 * scheduler.get_last_lr()[0]
+                threshold_matrix[~success_mask] -= t * scheduler.get_last_lr()[0]
+                threshold_matrix[success_mask] += t * scheduler.get_last_lr()[0]
                 threshold_matrix.clamp_(0, 1)
 
                 delta.data[(delta.data.abs() < threshold_matrix)] = 0
 
         # Update bounds and constants
         CONST, upper_bound, lower_bound = update_bounds_and_consts(
-            outer_step, binary_search_steps, CONST, upper_bound, lower_bound, success_samples_R
+            outer_step, binary_search_steps, CONST, upper_bound, lower_bound, prime_success
         )
 
     # Final outputs
-    final_adv =  prioritized_binary_rounding(original_inputs, (original_inputs + best_delta).detach(), model, feature_mask, detector_enabled, oblivion)
-    final_adv =  prioritized_binary_rounding(original_inputs, final_adv.detach(), model, feature_mask, detector_enabled, oblivion)
+    output =  prioritized_binary_rounding(original_inputs, (original_inputs + best_delta).detach(), model, feature_mask, detector_enabled, oblivion,stable=stable)
+    output =  prioritized_binary_rounding(original_inputs, output.detach(), model, feature_mask, detector_enabled, oblivion,stable=stable)
 
-    return final_adv
+    return output
