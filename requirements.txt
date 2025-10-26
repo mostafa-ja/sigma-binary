@@ -1,0 +1,15 @@
+# Sigma-Binary: Adversarial Attack for Malware Detection
+# Requirements file for reproducing experiments
+
+# Core Deep Learning Framework
+torch==2.5.0+cu124
+
+# Scientific Computing
+numpy==2.1.2
+scipy==1.14.1
+scikit-learn==1.5.2
+
+# Data Processing
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
