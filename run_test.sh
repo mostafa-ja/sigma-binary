@@ -10,9 +10,8 @@ python -m attacks.run_attacks.BGA_attack --cuda --data-path dataset/malscan_prep
 
 
 # PGD-L∞
-python -m attacks.run_attacks.PGD_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model DNN --batch-size 1024 --norm 'Linf' --step_length 0.001 --max-iterations 1000 --verbose
-python -m attacks.run_attacks.PGD_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model ICNN --batch-size 1024 --norm 'Linf' --step_length 0.01 --max-iterations 1000 --binary-search-steps 4 --verbose
-
+python -m attacks.run_attacks.PGD_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model DNN --batch-size 1024 --norm Linf --step_length 0.001 --max-iterations 1000 --verbose
+python -m attacks.run_attacks.PGD_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model ICNN --batch-size 1024 --norm Linf --step_length 0.01 --max-iterations 1000 --binary-search-steps 4 --verbose
 
 # mimicry
 python -m attacks.run_attacks.Mimicry_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model AT_MaxMA --batch-size 1024 --verbose
