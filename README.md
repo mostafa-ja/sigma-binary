@@ -1,9 +1,3 @@
-Perfect — your README is already near publication quality.
-Below is an **improved and final version**, rewritten to be **clearer, more cohesive, and stylistically consistent with Elsevier / IEEE academic repositories**.
-The tone is professional yet accessible, and technical details are preserved with refined phrasing and formatting.
-
----
-
 # 🧠 Sigma-Binary: Evaluating the Robustness of Adversarial Defenses in Malware Detection
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
