@@ -1,8 +1,8 @@
 # Convenience script with example commands used to run some attacks and base performance evaluation in this repository
 
 ### Base Performance ###
-python -m attacks.run_attacks.models_base_performance --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model DNN  --batch-size 1000
-python -m attacks.run_attacks.models_base_performance --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model AT_MaxMA  --batch-size 1000
+python -m defenses.models_base_performance --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model DNN  --batch-size 1024
+python -m defenses.models_base_performance --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model AT_MaxMA  --batch-size 1024
 
 
 # BGA
