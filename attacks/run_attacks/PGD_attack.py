@@ -8,7 +8,7 @@ Usage examples:
 python -m attacks.run_attacks.PGD_attack \
   --cuda --data-path dataset/malscan_preprocessed \
   --param-path defenses/saved_parameters \
-  --model DNN --norm l2 --step_length 1.0 --max-iterations 1000 --verbose
+  --model DNN --norm L2 --step_length 1.0 --max-iterations 1000 --verbose
 """
 
 import argparse
@@ -40,8 +40,8 @@ def main():
     # PGD-specific parameters
     parser.add_argument("--max-iterations", type=int, default=1000, help="Maximum number of PGD iterations")
     parser.add_argument("--step_length", type=float, required=True, help="Step length for the PGD attack")
-    parser.add_argument("--norm", type=str, required=True, choices=["l1", "l2", "linf"],
-                        help="Norm type for the attack: 'l1', 'l2', or 'linf'")
+    parser.add_argument("--norm", type=str, required=True, choices=["L1", "L2", "Linf"],
+                        help="Norm type for the attack: 'L1', 'L2', or 'Linf'")
     parser.add_argument("--binary-search-steps", type=int, default=6, help="Binary search steps for balancing constant")
     parser.add_argument("--initial-const", type=float, default=1.0, help="Initial constant for detector constraint")
     parser.add_argument("--output-dir", type=str, default="dataset/adversarial_examples",
@@ -89,7 +89,7 @@ def main():
     detector_enabled = args.model in ["KDE", "DNNPlus", "DLA", "ICNN", "PAD"]
 
     # Construct attack name and cached paths
-    attack_name = f"PGD_{args.norm.upper()}"
+    attack_name = f"PGD_{args.norm}"
     file_paths = {
         "mals": output_dir / f"{model.model_name}_mals_{attack_name}.pt",
         "advs": output_dir / f"{model.model_name}_advs_{attack_name}.pt",
