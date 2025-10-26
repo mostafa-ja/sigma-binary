@@ -191,14 +191,8 @@ python -m attacks.run_attacks.sigmaBinary_attack --cuda --data-path dataset/mals
 ### Example: Running PGD (Baseline)
 
 ```bash
-python -m attacks.run_attacks.PGD_attack \
-    --cuda \
-    --data-path dataset/malscan_preprocessed \
-    --param-path defenses/saved_parameters \
-    --model DNN \
-    --norm L2 \
-    --max-iterations 1000 \
-    --step-length 1.0
+python -m attacks.run_attacks.PGD_attack --cuda --data-path dataset/malscan_preprocessed --param-path defenses/saved_parameters --model DNN --batch-size 1024 --norm L2 --step_length 0.5 --max-iterations 1000 --verbose
+
 ```
 
 ---
