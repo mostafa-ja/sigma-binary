@@ -16,6 +16,7 @@ This repository contains the official implementation and experimental framework 
 >
 > 📘 **Journal:** *Computers & Electrical Engineering* (Elsevier)
 > 📅 **Volume:** 130, February 2026, Article 110845
+> 
 > 📌 **DOI:** [https://doi.org/10.1016/j.compeleceng.2025.110845](https://doi.org/10.1016/j.compeleceng.2025.110845)
 > 🟢 **Status:** Published (Version of Record: 3 December 2025)
 >
@@ -206,19 +207,22 @@ python -m attacks.run_attacks.PGD_attack --cuda --data-path dataset/malscan_prep
 
 ## 🧾 Citation
 
-If you use this repository in your research, please cite:
+If you use this repository in your research, please cite the published journal article:
 
 ```bibtex
-@article{jafari2025sigmabinary,
-  title={Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems},
-  author={Jafari, Mostafa and Shameli-Sendi, Alireza},
-  journal={arXiv preprint arXiv:2505.09342},
-  year={2025},
-  url={https://arxiv.org/abs/2505.09342}
+@article{jafari2026robustness,
+  title   = {Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems},
+  author  = {Jafari, Mostafa and Shameli-Sendi, Alireza},
+  journal = {Computers \& Electrical Engineering},
+  volume  = {130},
+  pages   = {110845},
+  year    = {2026},
+  doi     = {10.1016/j.compeleceng.2025.110845}
 }
 ```
 
 ---
+
 
 ## 🙏 Acknowledgments
 
