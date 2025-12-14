@@ -12,10 +12,17 @@ This repository contains the official implementation and experimental framework 
 
 > **“Evaluating the Robustness of Adversarial Defenses in Malware Detection Systems”**
 > *Mostafa Jafari, Alireza Shameli-Sendi*
-> 📖 **arXiv**: [2505.09342](https://arxiv.org/abs/2505.09342)
-> 🧾 **Status:** Under Review (*Computers & Electrical Engineering, Elsevier*)
+> Faculty of Computer Science and Engineering, Shahid Beheshti University (SBU), Tehran, Iran
+>
+> 📘 **Journal:** *Computers & Electrical Engineering* (Elsevier)
+> 📅 **Volume:** 130, February 2026, Article 110845
+> 📌 **DOI:** [https://doi.org/10.1016/j.compeleceng.2025.110845](https://doi.org/10.1016/j.compeleceng.2025.110845)
+> 🟢 **Status:** Published (Version of Record: 3 December 2025)
+>
+> 📖 **Preprint (arXiv):** [2505.09342](https://arxiv.org/abs/2505.09342)
 
 ---
+
 
 ## 🔍 Abstract
 
