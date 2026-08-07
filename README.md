@@ -236,7 +236,7 @@ If you use this repository in your research, please cite the published journal a
 ## 📧 Contact
 
 **Mostafa Jafari**
-📧 [most.jafari@mail.sbu.ac.ir](mailto:most.jafari@mail.sbu.ac.ir)
+📧 [mostafa.jaafari@gmail.com](mailto:mostafa.jaafari@gmail.com)
 🏛 Shahid Beheshti University, Tehran, Iran
 
 ---
